@@ -9,12 +9,13 @@ EMAIL_REGEX = re.compile (r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.+_-]+/.[a-zA-Z]+$')
 from django.db import models
 class UserManager(models.Manager):
     # Manager is a default attribute of models
-    def login (self,postData):
+    def login(self, postData):
         email = postData['email'].lower()
-        users = self.filter(email = email)
-        if users: 
+        password = postData['password']
+        users = User.objects.filter(email = email)
+        if len(users):
             user = users[0]
-            if bcrypt.checkpw(post['login_password'].encode(),user.password.encode()):
+            if bcrypt.checkpw(password.encode(), user.password.encode()):
                 return user
         return False
 
@@ -26,21 +27,21 @@ class UserManager(models.Manager):
         cpassword = postData['cpassword']
         errors = []
         
-        if len(first_name) < 2 or len(last_name) < 2 or len(email):
+        if len(first_name) < 2 or len(last_name) < 2 or len(email) < 2:
             errors.append('Fields must be filled out')
-        if len(password) <= 8 or len(cpassword) <= 8:
+        if len(password) < 8 or len(cpassword) < 8:
             errors.append('Passwords must be 8 or more characters')
         else:
             if password != cpassword:
                 errors.append('Passwords must match')
         return {'status': len(errors) == 0, 'errors':errors}
 
-    def createUser(postData):
+    def createUser(self, postData):
         first_name = postData['first_name']
         last_name = postData['last_name']
         email = postData['email'].lower()
-        password = bcrypt.hashpw(post['password'].encode(), bcrypt.gensalt()) #collect the password
-        self.create(first_name = first_name, last_name = last_name, email = email, password = password)
+        password = bcrypt.hashpw(postData['password'].encode(), bcrypt.gensalt()) #collect the password
+        return self.create(first_name = first_name, last_name = last_name, email = email, password = password)
 
 class User(models.Model):
     first_name = models.CharField(max_length = 255)

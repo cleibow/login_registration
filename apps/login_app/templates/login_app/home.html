@@ -19,10 +19,10 @@
         {% csrf_token %}
         <div class="row">
             <div class="col-10">
-                <h1>Success! Welcome {{request.session.first_name}}</h1>
-                <h3>First Name: {{request.session.first_name}}</h3>
-                <h3>Last Name: {{request.session.last_name}}</h3>
-                <h3>Email: {{request.session.email}}</h3>
+                <h1>Success! Welcome {{user.first_name}}</h1>
+                <h3>First Name: {{user.first_name}}</h3>
+                <h3>Last Name: {{user.last_name}}</h3>
+                <h3>Email: {{user.email}}</h3>
             </div>
         </div>
     </div>
