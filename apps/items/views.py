@@ -50,7 +50,6 @@ def displayUser(request, item_id):
     return render(request, 'items/profile.html', data)
 
 def delete(request, item_id):
-    user = Item.objects.get(id = user_id)
     Item.objects.deleteItem(item_id, request.session['user_id'])
     return redirect ('/items')
 
