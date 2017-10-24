@@ -14,11 +14,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
         crossorigin="anonymous"></script>
     <title>Login and Registration</title>
+    <style>
+        .quote{
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid black;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Hi there</h1>
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -52,6 +58,9 @@
                         <label for="exampleInputPassword1">Confirm Password</label>
                         <input name="cpassword" type="text" class="form-control" id="exampleInputPassword1" placeholder="Confirm Password">
                     </div>
+                    <label for="date">Date</label>
+                    <input type = "date" name = "date">
+                    <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>

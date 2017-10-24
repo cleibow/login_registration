@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    <title>Dashboard</title>
+    <style>
+        a {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</li>
+                {% endfor %}
+        </ul>
+        {% endif %}
+        <h2>All items</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Added by</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody class="allItems">
+                {% for item in items %}
+                <tr>
+                    <td scope="row">
+                        <a href='items/profile/{{item.id}}'>{{item.name}}</a>
+                    </td>
+                    <td>{{item.added_by.first_name}}</td>
+                    <td>{{item.created_at}}</td>
+                    <td>
+                        <a href='/items/addFav/{{item.id}}'>Add to wish list</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2>My wishlist</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Added by</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody class="favItems">
+                {% for item in user.favorites.all %}
+                <tr>
+                    <td scope="row">
+                        <a href='items/profile/{{item.id}}'>{{item.name}}</a>
+                    </td>
+                    <td>{{item.added_by.first_name}}</td>
+                    <td>{{item.created_at}}</td>
+                    <td>
+                        <a href='/items/removeFav/{{item.id}}'>Remove from wish list</a>
+                        <a href='/items/delete/{{item.id}}'>Delete item</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href='/items/create'>New Item</a>
+        <a href='/logout'>Logout</a>
+    </div>
+</body>
+
+</html>

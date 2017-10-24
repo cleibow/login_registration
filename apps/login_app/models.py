@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import messages
+from datetime import datetime
 import bcrypt
 import re
 
@@ -25,6 +26,7 @@ class UserManager(models.Manager):
         email = postData['email']
         password = postData['password']
         cpassword = postData['cpassword']
+        date 
         errors = []
         
         if len(first_name) < 2 or len(last_name) < 2 or len(email) < 2:
@@ -40,8 +42,9 @@ class UserManager(models.Manager):
         first_name = postData['first_name']
         last_name = postData['last_name']
         email = postData['email'].lower()
+        date = postData['date']
         password = bcrypt.hashpw(postData['password'].encode(), bcrypt.gensalt()) #collect the password
-        return self.create(first_name = first_name, last_name = last_name, email = email, password = password)
+        return self.create(first_name = first_name, last_name = last_name, email = email, password = password, date = date)
 
 class User(models.Model):
     first_name = models.CharField(max_length = 255)
@@ -49,11 +52,12 @@ class User(models.Model):
     email = models.CharField(max_length = 255)
     password = models.CharField(max_length = 255)
     cpassword = models.CharField(max_length = 255)
+    date = models.DateField('YYYY-MM-DD', default = datetime.now(), blank = True)
     objects = UserManager()
 
 
     def __str__(self):
-        return "First_name: {}, last_name: {}, email: {}, password: {}, cpassword: {}".format(self.first_name, self.last_name, self.email, self.password, self.cpassword)
+        return "First_name: {}, last_name: {}, email: {}, password: {}, cpassword: {}, date:{}".format(self.first_name, self.last_name, self.email, self.password, self.cpassword, self.date)
 
 
 # Create your models here.

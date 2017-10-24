@@ -23,6 +23,8 @@ def registration(request):
     if res['status']:
         user = User.objects.createUser(request.POST)
         request.session['user_id'] = user.id
+        print user.date
+        print type(user.date)
         return redirect('/home')
         print 'valid user'
     else:
@@ -40,6 +42,10 @@ def home(request):
     }
 
     return render(request, 'login_app/home.html', userData)
+
+def logout(request):
+    request.session.clear()
+    return redirect('/')
 
 
 
